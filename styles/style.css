@@ -3,7 +3,8 @@
   --color2: #464033;
   --color3: #bbc4c2;
   --color4: #5a4fcf;
-  --color5: #e32227;
+  --color5: #f6c324;
+  --color6: #e32227;
 }
 
 * {
@@ -30,14 +31,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
 }
 
 /********** Header **********/
 header {
   width: 100%;
   flex-grow: 1;
-  text-align: center;
 }
 
 header h1 {
@@ -47,6 +46,7 @@ header h1 {
 /********** Main **********/
 main {
   flex-grow: 1;
+  align-items: center;
 }
 
 .calculator {
@@ -60,6 +60,21 @@ main {
   width: 70vw;
   height: 30vw;
   background-color: var(--color3);
+  text-align: right;
+}
+
+.current-display {
+  margin: 0 5vw 1vw 5vw;
+  font-size: 1.5rem;
+  flex-grow: 1;
+}
+
+.past-display {
+  margin: 1vw 5vw 0 5vw;
+  flex-grow: 3;
+  flex-direction: column-reverse;
+  justify-content: end;
+  overflow: scroll;
 }
 
 .buttons {
@@ -81,13 +96,19 @@ main {
   padding: 2px 0 0 2px;
 }
 
-.c-button {
+.clear-button {
+  border-color: var(--color6);
+  background-color: var(--color6);
+  color: white;
+}
+
+.delete-button {
   border-color: var(--color5);
   background-color: var(--color5);
   color: white;
 }
 
-.del-button {
+.operator-button {
   border-color: var(--color4);
   background-color: var(--color4);
   color: white;
@@ -98,7 +119,6 @@ footer {
   width: 100%;
   font-size: 1.2rem;
   flex-grow: 1;
-  text-align: center;
 }
 
 a {
