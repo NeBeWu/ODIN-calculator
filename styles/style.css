@@ -1,0 +1,158 @@
+:root {
+  --color1: #140005;
+  --color2: #464033;
+  --color3: #bbc4c2;
+  --color4: #5a4fcf;
+  --color5: #e32227;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 4vw;
+}
+
+/********** Body **********/
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  color: black;
+  font-family: monospace;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.alignment {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/********** Header **********/
+header {
+  width: 100%;
+  flex-grow: 1;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+/********** Main **********/
+main {
+  flex-grow: 1;
+}
+
+.calculator {
+  border-radius: 3vw;
+  background-color: var(--color2);
+}
+
+.display {
+  margin: 5vw;
+  border-radius: 1vw;
+  width: 70vw;
+  height: 30vw;
+  background-color: var(--color3);
+}
+
+.buttons {
+  margin: 5vw;
+  width: 70vw;
+  height: 90vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 3vw;
+}
+
+.button {
+  border-radius: 1vw;
+  font-size: 6vw;
+}
+
+.button:active {
+  padding: 2px 0 0 2px;
+}
+
+.c-button {
+  border-color: var(--color5);
+  background-color: var(--color5);
+  color: white;
+}
+
+.del-button {
+  border-color: var(--color4);
+  background-color: var(--color4);
+  color: white;
+}
+
+/********** Footer **********/
+footer {
+  width: 100%;
+  font-size: 1.2rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover > i {
+  border-radius: 100px;
+  background-color: black;
+  color: white;
+}
+
+/* Mobile Landscape */
+@media only screen and (orientation: Landscape) and (max-height: 599px) {
+  /********** Root **********/
+  html {
+    font-size: 2.4vw;
+  }
+
+  /********** Body **********/
+  body {
+    height: 100%;
+  }
+}
+
+/* Tablet and Computer */
+@media only screen and (min-width: 600px) and (min-height: 600px) {
+  /********** Root **********/
+  html {
+    font-size: 24px;
+  }
+
+  /********** Body **********/
+  body {
+    align-items: center;
+  }
+
+  /********** Header **********/
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  /********** Main **********/
+  main {
+    width: 600px;
+  }
+
+  .container {
+    width: 600px;
+    height: 600px;
+  }
+
+  #sizeInput {
+    padding: 0 5rem;
+  }
+}
