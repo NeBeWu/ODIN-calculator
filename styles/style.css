@@ -55,23 +55,25 @@ main {
 }
 
 .display {
-  margin: 5vw;
+  margin: 5vw 5vw 0 5vw;
   border-radius: 1vw;
   width: 70vw;
   height: 30vw;
   background-color: var(--color3);
   text-align: right;
+  overflow: hidden;
 }
 
 .current-display {
-  margin: 0 5vw 1vw 5vw;
+  margin: 0 5vw 0 5vw;
   font-size: 1.5rem;
-  flex-grow: 1;
+  flex-grow: 0;
+  overflow-x: scroll;
 }
 
 .past-display {
-  margin: 1vw 5vw 0 5vw;
-  flex-grow: 3;
+  margin: 0 5vw 0 5vw;
+  flex-grow: 0;
   flex-direction: column-reverse;
   justify-content: end;
   overflow: scroll;
