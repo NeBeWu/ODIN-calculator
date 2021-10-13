@@ -2,8 +2,6 @@
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
-let operationResult = '';
-let divideByZero = 0;
 
 //Global constants that store the main nodes
 const currentDisplay = document.querySelector('.current-display');
@@ -35,21 +33,31 @@ function resetPastDisplay() {
   }
 }
 
-//Functions that change the global variables and execute other
+//Functions to update the global variables and execute other
 //functions when these change
+function limitSize() {
+  if (currentDisplay.textContent.length > 16) {
+    alert('Maximum number of characters is 16!');
+    deleteLast();
+  }
+}
+
 function updateFirstNumber(value) {
   firstNumber = value;
   updateCurrentDisplay();
+  limitSize();
 }
 
 function updateSecondNumber(value) {
   secondNumber = value;
   updateCurrentDisplay();
+  limitSize();
 }
 
 function updateOperator(value) {
   operator = value;
   updateCurrentDisplay();
+  limitSize();
 }
 
 function appendFirstNumber(appendValue) {
@@ -61,71 +69,67 @@ function appendSecondNumber(appendValue) {
 }
 
 function resetCurrentVariables() {
-  firstNumber = '';
-  secondNumber = '';
-  operator = '';
+  updateFirstNumber('');
+  updateSecondNumber('');
+  updateOperator('');
 }
 
-//Function responsible to operate the current expression,
-//change the display and reset global variables
-function equalsTo() {
-  if (firstNumber == '' || (operator != '!' && secondNumber == '')) {
-  } else if (operator == '÷' && secondNumber == '0') {
-    return alert('Watch out! You are trying to divide a number by 0.');
-  } else {
-    operationResult = operate(operator, firstNumber, secondNumber);
-    updatePastDisplay(operationResult);
-    resetCurrentVariables();
-    if (operationResult == 'Undefined') {
-      updateFirstNumber('');
-    } else {
-      updateFirstNumber(`${operationResult}`);
-    }
+//Functions corresponding to the calculator actions
+function appendNumber(number) {
+  switch (operator) {
+    case '':
+      appendFirstNumber(number);
+      break;
+    case '!':
+      break;
+    default:
+      appendSecondNumber(number);
+      break;
   }
 }
 
-//EventListener assignment for each button
-numberButton.forEach((currentValue) => {
-  currentValue.addEventListener('click', () => {
-    if (operator == '') {
-      appendFirstNumber(currentValue.textContent);
-    } else if (operator == '!') {
-    } else {
-      appendSecondNumber(currentValue.textContent);
-    }
-  });
-});
+function appendOperator(operator) {
+  if (firstNumber != '' && secondNumber == '') {
+    updateOperator(operator);
+  } else if (firstNumber != '' && secondNumber != '') {
+    equalsTo();
+    updateOperator(operator);
+  }
+}
 
-operatorButton.forEach((currentValue) => {
-  currentValue.addEventListener('click', () => {
-    if (firstNumber != '' && secondNumber == '') {
-      updateOperator(currentValue.textContent);
-    } else if (firstNumber != '' && secondNumber != '') {
-      equalsTo();
-      updateOperator(currentValue.textContent);
-    }
-  });
-});
+function equalsTo() {
+  if (
+    firstNumber == '' ||
+    operator == '' ||
+    (operator != '!' && secondNumber == '')
+  ) {
+  } else if (operator == '÷' && Number(secondNumber) == 0) {
+    return alert("You can't divide a number by 0.");
+  } else if (operator == '!' && !Number.isInteger(firstNumber)) {
+    return alert("You can't compute factorials of non-integers.");
+  } else {
+    let operationResult = operate(operator, firstNumber, secondNumber);
+    updatePastDisplay(operationResult);
+    resetCurrentVariables();
+    updateFirstNumber(`${operationResult}`);
+  }
+}
 
-equalsButton.addEventListener('click', () => {
-  equalsTo();
-});
-
-clearButton.addEventListener('click', () => {
+function clear() {
   resetCurrentVariables();
   updateCurrentDisplay();
   resetPastDisplay();
-});
+}
 
-decimalButton.addEventListener('click', () => {
+function appendDecimal() {
   if (firstNumber != '' && operator == '' && !firstNumber.includes('.')) {
-    appendFirstNumber(decimalButton.textContent);
+    appendFirstNumber('.');
   } else if (secondNumber != '' && !secondNumber.includes('.')) {
-    appendSecondNumber(decimalButton.textContent);
+    appendSecondNumber('.');
   }
-});
+}
 
-deleteButton.addEventListener('click', () => {
+function deleteLast() {
   if (firstNumber != '' && operator == '') {
     updateFirstNumber(firstNumber.slice(0, firstNumber.length - 1));
   } else if (operator != '' && secondNumber == '') {
@@ -133,46 +137,113 @@ deleteButton.addEventListener('click', () => {
   } else if (secondNumber != '') {
     updateSecondNumber(secondNumber.slice(0, secondNumber.length - 1));
   }
-});
-
-//Function responsible to round answers when they get big
-function formatResult(number) {
-  if (number.toString().length > 10) {
-    return number.toPrecision(10);
-  } else {
-    return number;
-  }
 }
 
-//Functions corresponding to the calculator basic operations
+//EventListener assignment for each button
+numberButton.forEach((currentValue) => {
+  currentValue.addEventListener('click', () =>
+    appendNumber(currentValue.textContent)
+  );
+});
+
+operatorButton.forEach((currentValue) => {
+  currentValue.addEventListener('click', () =>
+    appendOperator(currentValue.textContent)
+  );
+});
+
+equalsButton.addEventListener('click', () => {
+  equalsTo();
+});
+
+clearButton.addEventListener('click', () => {
+  clear();
+});
+
+decimalButton.addEventListener('click', () => {
+  appendDecimal();
+});
+
+deleteButton.addEventListener('click', () => {
+  deleteLast();
+});
+
+//EventListener assignment for keyboard
+window.addEventListener('keydown', (e) => {
+  if (Number.isInteger(Number(e.key))) {
+    appendNumber(e.key);
+  }
+  switch (e.key) {
+    case '+':
+      appendOperator('+');
+      break;
+    case '-':
+      appendOperator('−');
+      break;
+    case '*':
+      appendOperator('×');
+      break;
+    case '/':
+      appendOperator('÷');
+      break;
+    case '^':
+      appendOperator('^');
+      break;
+    case '!':
+      appendOperator('!');
+      break;
+    case '=':
+    case 'Enter':
+      equalsTo();
+      break;
+    case 'Escape':
+      clear();
+      break;
+    case '.':
+      appendDecimal();
+      break;
+    case 'Backspace':
+      deleteLast();
+      break;
+  }
+});
+
+//Functions corresponding to the operations logic
 function add(number1, number2) {
-  return formatResult(number1 + number2);
+  return number1 + number2;
 }
 
 function subtract(number1, number2) {
-  return formatResult(number1 - number2);
+  return number1 - number2;
 }
 
 function multiply(number1, number2) {
-  return formatResult(number1 * number2);
+  return number1 * number2;
 }
 
 function divide(number1, number2) {
-  return formatResult(number1 / number2);
+  return number1 / number2;
 }
 
 function exponential(number1, number2) {
-  return formatResult(Math.pow(number1, number2));
+  return Math.pow(number1, number2);
 }
 
 function factorial(number) {
-  if (Number.isInteger(number) && number >= 0) {
-    let result = 1;
-    for (i = 1; i < number; i++) {
-      result *= i + 1;
-    }
-    return result;
-  } else return 'Undefined';
+  let result = 1;
+  for (i = 1; i < number; i++) {
+    result *= i + 1;
+  }
+  return result;
+}
+
+//Function responsible to round answers when they get big
+function formatResult(number) {
+  if (number.toString().length > 6) {
+    return number.toPrecision(6);
+  } else {
+    return number;
+  }
 }
 
 //Function responsible to operate an expression
@@ -182,18 +253,16 @@ function operate(operator, number1, number2) {
 
   switch (operator) {
     case '+':
-      return add(number1, number2);
+      return formatResult(add(number1, number2));
     case '−':
-      return subtract(number1, number2);
+      return formatResult(subtract(number1, number2));
     case '×':
-      return multiply(number1, number2);
+      return formatResult(multiply(number1, number2));
     case '÷':
-      return divide(number1, number2);
+      return formatResult(divide(number1, number2));
     case '^':
-      return exponential(number1, number2);
+      return formatResult(exponential(number1, number2));
     case '!':
       return factorial(number1);
-    case '':
-      return number1;
   }
 }

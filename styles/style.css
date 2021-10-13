@@ -50,48 +50,49 @@ main {
 }
 
 .calculator {
-  border-radius: 3vw;
+  border-radius: 1rem;
   background-color: var(--color2);
 }
 
 .display {
-  margin: 5vw 5vw 0 5vw;
-  border-radius: 1vw;
-  width: 70vw;
-  height: 30vw;
+  margin: 1rem 1rem 0 1rem;
+  border-radius: 1rem;
+  width: 18rem;
+  height: 9rem;
   background-color: var(--color3);
   text-align: right;
-  overflow: hidden;
-}
-
-.current-display {
-  margin: 0 5vw 0 5vw;
-  font-size: 1.5rem;
-  flex-grow: 0;
-  overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .past-display {
-  margin: 0 5vw 0 5vw;
-  flex-grow: 0;
+  margin: 0 1rem 0 1rem;
+  flex-grow: 1;
+  display: flex;
   flex-direction: column-reverse;
-  justify-content: end;
-  overflow: scroll;
+  overflow: auto;
+}
+
+.current-display {
+  margin: 0 1rem 0 1rem;
+  height: 30%;
+  font-size: 1.5rem;
+  flex-grow: 0;
 }
 
 .buttons {
-  margin: 5vw;
-  width: 70vw;
-  height: 90vw;
+  margin: 1rem;
+  width: 18rem;
+  height: 24rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  gap: 3vw;
+  gap: 1rem;
 }
 
 .button {
-  border-radius: 1vw;
-  font-size: 6vw;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
 }
 
 .button:active {
@@ -135,46 +136,25 @@ a:hover > i {
 }
 
 /* Mobile Landscape */
-@media only screen and (orientation: Landscape) and (max-height: 599px) {
+@media only screen and (max-height: 450px) and (orientation: Landscape) {
   /********** Root **********/
   html {
-    font-size: 2.4vw;
-  }
-
-  /********** Body **********/
-  body {
-    height: 100%;
+    font-size: 2vh;
   }
 }
 
-/* Tablet and Computer */
-@media only screen and (min-width: 600px) and (min-height: 600px) {
+/* Tablet */
+@media only screen and (min-width: 600px) and (max-width: 1000px) and (orientation: portrait) {
   /********** Root **********/
   html {
-    font-size: 24px;
+    font-size: 3vw;
   }
+}
 
-  /********** Body **********/
-  body {
-    align-items: center;
-  }
-
-  /********** Header **********/
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  /********** Main **********/
-  main {
-    width: 600px;
-  }
-
-  .container {
-    width: 600px;
-    height: 600px;
-  }
-
-  #sizeInput {
-    padding: 0 5rem;
+/* Tablet Landscape and Computer */
+@media only screen and (min-height: 600px) and (max-height: 999px) {
+  /********** Root **********/
+  html {
+    font-size: 2vh;
   }
 }
